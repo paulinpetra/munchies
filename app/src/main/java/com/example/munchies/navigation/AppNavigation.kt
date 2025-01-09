@@ -15,6 +15,7 @@ fun AppNavigation(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     val navController = rememberNavController() // Create NavController
     val restaurantRepository = RestaurantRepository() // Instantiate RestaurantRepository
 
+    //each composable in the NavHost is a screen or destination-route
     NavHost(
         navController = navController,
         startDestination = "home",
@@ -26,6 +27,7 @@ fun AppNavigation(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
                 viewModel = homeViewModel // Pass HomeViewModel to HomePage
             )
         }
+        //the backStackEntry contains arguments passed to the route, it returns the restaurant id as a string
         composable("detail/{restaurantId}") { backStackEntry ->
             val restaurantId = backStackEntry.arguments?.getString("restaurantId")
             restaurantId?.let {

@@ -10,11 +10,12 @@ import com.example.munchies.api.RestaurantData
 import com.example.munchies.model.RestaurantRepository
 import kotlinx.coroutines.launch
 
+//extends ViewModel, which is part of Android's architecture components
 class HomeViewModel : ViewModel() {
-    //call the method of RestaurantRepository
+    //call the method of RestaurantRepository which fetches the data
     private val restaurantRepository: RestaurantRepository = RestaurantRepository()
 
-    //live data to hold restaurant data
+    //live data to hold mutable an immutable restaurant data
     private val _restaurantData = MutableLiveData<List<RestaurantData>>()
     val restaurantData: LiveData<List<RestaurantData>> = _restaurantData
 
@@ -38,7 +39,7 @@ class HomeViewModel : ViewModel() {
     //get restaurant-list data, async so need coroutine (viewmodelscope)
     fun getRestaurantData() {
         _isLoading.postValue(true)
-
+//When you call launch within a coroutine scope, such as viewModelScope, it creates and starts a new coroutine
         viewModelScope.launch {
             try {
                 val restaurantResult = restaurantRepository.fetchRestaurantData()
@@ -48,7 +49,7 @@ class HomeViewModel : ViewModel() {
 
                     _error.postValue(null)
 
-                    // Extract unique filter IDs and fetch their details
+                    // Extract unique filter IDs and fetch their details(fetchFilterDetails function below)
                     val filterIds = restaurantResult.flatMap { it.filterIds }.distinct()
                     fetchFilterDetails(filterIds)
 

@@ -22,14 +22,16 @@ fun RestaurantDetailScreen(
     restaurantRepository: RestaurantRepository
 ) {
     // Use the ViewModel factory to create the ViewModel
+    //  if tou use Hilt it would be this:  val viewModel: RestaurantDetailViewModel = hiltViewModel()
     val viewModel: RestaurantDetailViewModel = viewModel(
         factory = RestaurantDetailViewModelFactory(restaurantRepository)
     )
-
+//side effect when id changes
     LaunchedEffect(restaurantId) {
         viewModel.getOpenStatus(restaurantId)
     }
 
+    //observeAsState is used to convert LiveData from the ViewModel into a state that can be observed in a composable
     val openStatus = viewModel.openStatus.observeAsState()
     val error = viewModel.error.observeAsState()
 

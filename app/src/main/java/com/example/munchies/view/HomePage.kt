@@ -34,10 +34,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.navigation.NavController
 import com.example.munchies.api.FilterData
 
-
+//The HomePage composable receives the HomeViewModel as a parameter. This implies that the ViewModel is created and managed outside of the HomePage(MainActivity)
+//if the project was bigger it would use DI like Hilt
 @Composable
 fun HomePage(modifier: Modifier = Modifier, viewModel: HomeViewModel, navController: NavController) {
     // Trigger data fetching of restaurant-list and filter-list when the composable is first displayed
+    //LaunchedEffect(Unit) same as useEffect with empty dependency array
     LaunchedEffect(Unit) {
         viewModel.getRestaurantData()
     }
